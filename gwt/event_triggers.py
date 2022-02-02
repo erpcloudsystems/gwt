@@ -99,7 +99,34 @@ def dn_validate(doc, method=None):
     pass
 @frappe.whitelist()
 def dn_on_submit(doc, method=None):
-    pass
+    new_doc = frappe.get_doc({
+        "doctype": "Installation Note",
+        "customer": doc.customer,
+        "customer_group": doc.customer_group,
+        "territory": doc.territory,
+        "customer_address": doc.customer_address,
+        "contact_person": doc.contact_person,
+    })
+    dn_items = frappe.db.sql(""" select a.name, a.idx, a.item_code, a.description, a.qty
+                                   from `tabDelivery Note Item` a join `tabDelivery Note` b
+                                   on a.parent = b.name
+                                   where b.name = '{name}'
+                               """.format(name=doc.name), as_dict=1)
+
+    for c in dn_items:
+        items = new_doc.append("items", {})
+        items.idx = c.idx
+        items.item_code = c.item_code
+        items.description = c.description
+        items.qty = c.qty
+        items.prevdoc_detail_docname = c.name
+        items.prevdoc_docname = doc.name
+        items.prevdoc_doctype = "Delivery Note"
+
+
+    new_doc.insert()
+    frappe.msgprint(" Installation Note Record " + new_doc.name + " created ")
+
 @frappe.whitelist()
 def dn_on_cancel(doc, method=None):
     pass
