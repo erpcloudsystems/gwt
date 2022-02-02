@@ -22,7 +22,6 @@ doc_events = {
 	"on_update": "gwt.event_triggers.quot_on_update",
 },
 	"Sales Invoice": {
-	"after_insert": "gwt.permission.share_sin",
 	"onload": "gwt.event_triggers.siv_onload",
 	"before_validate": "gwt.event_triggers.siv_before_validate",
 	"validate": "gwt.event_triggers.siv_validate",
@@ -34,7 +33,6 @@ doc_events = {
 	"on_update": "gwt.event_triggers.siv_on_update",
 },
 	"Sales Order": {
-		"after_insert": "gwt.permission.share_so",
 		"onload": "gwt.event_triggers.so_onload",
 		"before_validate": "gwt.event_triggers.so_before_validate",
 		"validate": "gwt.event_triggers.so_validate",
@@ -47,7 +45,6 @@ doc_events = {
 
 },
 	"Material Request": {
-		"after_insert": "gwt.permission.share_mr",
 		"onload": "gwt.event_triggers.mr_onload",
 		"before_validate": "gwt.event_triggers.mr_before_validate",
 		"validate": "gwt.event_triggers.mr_validate",
@@ -59,7 +56,6 @@ doc_events = {
 		"on_update": "gwt.event_triggers.mr_on_update",
 },
 	"Stock Entry": {
-		"after_insert": "gwt.permission.share_se",
 		"onload": "gwt.event_triggers.ste_onload",
 		"before_validate": "gwt.event_triggers.ste_before_validate",
 		"validate": "gwt.event_triggers.ste_validate",
@@ -71,7 +67,6 @@ doc_events = {
 		"on_update": "gwt.event_triggers.ste_on_update",
 },
 	"Delivery Note": {
-		"after_insert": "gwt.permission.share_dn",
 		"onload": "gwt.event_triggers.dn_onload",
 		"before_validate": "gwt.event_triggers.dn_before_validate",
 		"validate": "gwt.event_triggers.dn_validate",
@@ -83,7 +78,6 @@ doc_events = {
 		"on_update": "gwt.event_triggers.dn_on_update",
 },
 	"Purchase Order": {
-		"after_insert": "gwt.permission.share_po",
 		"onload": "gwt.event_triggers.po_onload",
 		"before_validate": "gwt.event_triggers.po_before_validate",
 		"validate": "gwt.event_triggers.po_validate",
@@ -95,7 +89,6 @@ doc_events = {
 		"on_update": "gwt.event_triggers.po_on_update",
 },
 	"Purchase Receipt": {
-		"after_insert": "gwt.permission.share_pr",
 		"onload": "gwt.event_triggers.pr_onload",
 		"before_validate": "gwt.event_triggers.pr_before_validate",
 		"validate": "gwt.event_triggers.pr_validate",
@@ -118,8 +111,6 @@ doc_events = {
 		"on_update": "gwt.event_triggers.piv_on_update",
 },
 	"Payment Entry": {
-		"before_insert": "gwt.event_triggers.pe_before_insert",
-		"after_insert": "gwt.permission.share_pe",
 		"onload": "gwt.event_triggers.pe_onload",
 		"before_validate": "gwt.event_triggers.pe_before_validate",
 		"validate": "gwt.event_triggers.pe_validate",
