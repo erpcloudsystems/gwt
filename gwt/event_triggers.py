@@ -18,7 +18,17 @@ def quot_after_insert(doc, method=None):
     pass
 @frappe.whitelist()
 def quot_before_validate(doc, method=None):
-    pass
+    for d in doc.items:
+        d.margin_type = None
+        if doc.selling_price_list == "Grundfos Pricelist 2022":
+            d.estimated_cost = float(d.price_list_rate) / (1 - (float(d.percentage)/100))
+            d.rate = float(d.price_list_rate) / (1 - (float(d.percentage)/100)) 
+        if doc.selling_price_list == "Victaulic Pricelist 2022":
+            x = float(d.price_list_rate) - (float(d.supplier_discount) * float(d.price_list_rate) / 100)
+            z = x + ((float(d.customs) + float(d.s_c)) * x /100)
+            d.cost_with_customs_and_s_c = z
+            d.estimated_cost = z / (1 - (float(d.percentage)/100))
+            d.rate = d.estimated_cost
 @frappe.whitelist()
 def quot_validate(doc, method=None):
     pass
@@ -94,6 +104,7 @@ def dn_after_insert(doc, method=None):
 @frappe.whitelist()
 def dn_before_validate(doc, method=None):
     pass
+
 @frappe.whitelist()
 def dn_validate(doc, method=None):
     pass
@@ -101,11 +112,13 @@ def dn_validate(doc, method=None):
 def dn_on_submit(doc, method=None):
     new_doc = frappe.get_doc({
         "doctype": "Installation Note",
+	"delivery_note": doc.name,
         "customer": doc.customer,
         "customer_group": doc.customer_group,
         "territory": doc.territory,
         "customer_address": doc.customer_address,
         "contact_person": doc.contact_person,
+	"inst_date": doc.posting_date,
     })
     dn_items = frappe.db.sql(""" select a.name, a.idx, a.item_code, a.description, a.qty
                                    from `tabDelivery Note Item` a join `tabDelivery Note` b
