@@ -18,64 +18,7 @@ def quot_after_insert(doc, method=None):
     pass
 @frappe.whitelist()
 def quot_before_validate(doc, method=None):
-    doc.total_fees = doc.transportation_fees + doc.lg_fees + doc.startup_fees + doc.extra_warranty_fees + doc.extra_fees
-    for d in doc.items:
-        d.valuation_rate = frappe.db.get_value('Bin', {'warehouse': d.warehouse, 'item_code': d.item_code},
-                                               'valuation_rate')
-        d.margin_type = None
-        if doc.selling_price_list == "Victaulic Pricelist 2022" and doc.in_stock == 0:
-            x = (d.price_list_rate - (d.supplier_discount * d.price_list_rate) / 100)
-            d.supplier_discount_amount = x
-            z = (x + (d.customs + d.s_c) * x / 100)
-            d.cost_with_customs_and_s_c = z * d.qty
-            d.estimated_cost = (z / (1 - (float(d.percentage) / 100))) * d.qty
-            d.rate = d.estimated_cost / d.qty
-            
-        if doc.selling_price_list == "Grundfos Pricelist 2022":
-            d.customs = 0
-            d.s_c = 0
-            d.supplier_discount = 0
-            d.estimated_cost = float(d.price_list_rate) / (1 - (float(d.percentage) / 100))
-            d.rate = float(d.price_list_rate) / (1 - (float(d.percentage) / 100))
-
-        totals = 0
-        total2 = 0
-        total3 = 0
-        total4 = float(0)
-        total5 = 0
-        total6 = 0
-        for x in doc.items:
-            total3 += float(x.qty) * float(x.supplier_discount_amount)
-            doc.total_supplier_discount_amount = total3
-
-            total4 += float(x.qty) * float(x.customs) * float(x.supplier_discount_amount) / 100
-            doc.total_customs_amount = total4
-
-            total5 += float(x.qty) * float(x.s_c) * float(x.supplier_discount_amount) / 100
-            doc.total_s_c_amount = total5
-
-            total6 += x.qty * x.price_list_rate
-            doc.total_price_list_rate = total6
-
-            total2 += x.cost_with_customs_and_s_c
-            doc.total_cost_with_customs_and_s_c = total2
-
-            totals += x.estimated_cost
-            doc.total_estimated_selling_rate = totals
-
-            doc.total_rate_margin_ = doc.total_estimated_selling_rate - doc.total_cost_with_customs_and_s_c
-            doc.margin_average = ((doc.total_estimated_selling_rate - doc.total_cost_with_customs_and_s_c - doc.total_fees) / doc.total_estimated_selling_rate) * 100
-
-        if doc.selling_price_list == "Grundfos Pricelist 2022" and doc.in_stock == 0:
-            doc.total_cost_with_customs_and_s_c = doc.total_price_list_rate
-            doc.total_estimated_selling_rate = doc.total
-            doc.total_rate_margin_ = doc.total_estimated_selling_rate - doc.total_cost_with_customs_and_s_c
-            doc.margin_average = ((doc.total_estimated_selling_rate - doc.total_cost_with_customs_and_s_c - doc.total_fees) / doc.total_estimated_selling_rate) * 100
-
-        if doc.in_stock:
-            d.estimated_cost = float(d.valuation_rate_stock) / (1 - (float(d.percentage) / 100))
-            d.rate = d.estimated_cost
-
+    pass
 @frappe.whitelist()
 def quot_validate(doc, method=None):
     pass
